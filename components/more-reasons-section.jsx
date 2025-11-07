@@ -24,12 +24,13 @@ export const Reasons = () => {
             <h2 className="text-lg lg:text-2xl font-semibold mb-4 px-6 md:px-10 lg:px-30">
                 More Reasons to Join
             </h2>
-            <section className="w-full flex flex-col flex-wrap md:flex-row items-center justify-center gap-y-2 gap-x-2 md:gap-x-4 px-6 md:px-10 lg:px-30">
+            <section className="w-full h-200 md:h-100 xl:h-80 grid grid-cols-1 grid-rows-4 md:grid-rows-2 md:grid-cols-2 xl:grid-rows-1 xl:grid-cols-4 items-center 
+                justify-center gap-y-2 gap-x-2 md:gap-4 px-6 md:px-10 lg:px-30">
                 {
                     reasons.map((reason, index) => 
                         <div key={index} 
-                            className="w-full md:max-w-[25%] lg:w-[24%] h-50 md:h-70 bg-blue-900 flex flex-col gap-y-3 p-4 rounded-xl
-                            more-gradient"
+                            className="w-full h-full bg-blue-900 flex flex-col flex-shringap-y-3 p-4 rounded-xl
+                            more-gradient gridClass "
                         >
                             <h4 className="text-lg lg:text-2xl font-semibold">
                                 {reason.title}

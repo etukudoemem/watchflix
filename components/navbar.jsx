@@ -1,14 +1,15 @@
 "use client"
 
-import { FiSearch } from "react-icons/fi"
-import { RxAvatar } from "react-icons/rx"
-import { FaRegBell } from "react-icons/fa"
 import { CgMenuLeft } from "react-icons/cg"
 import { BsArrowLeftSquareFill } from "react-icons/bs"
-import { useRef } from "react"
+import { BiSolidCameraMovie } from "react-icons/bi"
+import { useContext, useRef } from "react"
 import Link from "next/link"
+import { authContext } from "@/lib/AuthProvider"
+import { Logo } from "./logo"
 
 export const Navbar = () => {
+    const { userStatus, signUserOut } = useContext(authContext)
     const menuRef = useRef(null)
     const handleMenu = () => {
         menuRef.current.classList.toggle("-translate-x-100")
@@ -17,44 +18,48 @@ export const Navbar = () => {
     
     return( 
         <>
-            <nav className="flex justify-between items-center w-full py-7 px-7">
-                <section className="flex items-center gap-x-3 md:gap-x-6 lg:gap-x-12">
-                    <CgMenuLeft 
-                        onClick={handleMenu}
-                        size={25} 
-                        className="hidden md:hidden"
-                    />
-                    <h2 className="text-lg text-red-500 font-semibold">
-                        WATCHFLIX
-                    </h2>
-                    <ul className="-translate-x-100 md:translate-x-0 flex flex-col md:flex-row md:justify-between py-20 md:py-0
-                        md:gap-x-2 lg:gap-x-5 text-sm transition-translate duration-300 ease-in-out fixed top-0 left-0 bg-black md:bg-[inherit] z-10
-                        md:static w-50 md:w-full h-full border-r-2 border-gray-900 md:border-0 hidden"
+            <nav className="flex justify-between items-center w-full py-7 px-7 md:px-10 lg:px-30">
+                <section className="w-full flex items-center justify-between gap-x-2 md:gap-x-6 lg:gap-x-12">
+                    <div className="flex gap-x-3">
+                        {
+                            userStatus && 
+                            <CgMenuLeft 
+                                onClick={handleMenu}
+                                size={28} 
+                                className="md:hidden"
+                            />
+                        }
+                        <Logo />
+                    </div>
+                    <ul className="-translate-x-100 md:translate-x-0 flex flex-col md:flex-row md:justify-between pr-2 py-20 md:py-0
+                        md:gap-x-2 lg:gap-x-5 text-sm transition-translate duration-300 ease-in-out fixed top-0 left-0 bg-black md:bg-[inherit] z-100
+                        md:static w-50 md:w-full h-170 md:h-20 border-r-2 border-gray-900 md:border-0"
                         ref={menuRef}
                         >
-                        <BsArrowLeftSquareFill size={20} className="absolute top-4 right-4 active:scale-110 duration-200 ease md:hidden" onClick={handleMenu}/>
-                        <li className="px-5 py-3 hover:bg-[#333] rounded-r-full">Home</li>
-                        <li className="px-5 py-3 hover:bg-[#333] rounded-r-full">TV Shows</li>
-                        <li className="px-5 py-3 hover:bg-[#333] rounded-r-full">Movies</li>
-                        <li className="px-5 py-3 hover:bg-[#333] rounded-r-full">New & Popular</li>
+                        <BsArrowLeftSquareFill 
+                            size={20} 
+                            className="absolute top-4 right-4 active:scale-110 duration-200 ease md:hidden" 
+                            onClick={handleMenu}
+                        />
+                        {
+                            userStatus && 
+                            <Link href={"/movies"} className="flex items-center gap-x-2 px-4 hover:bg-[#333] md:hover:bg-[inherit] rounded-r-full">
+                                <BiSolidCameraMovie size={20} className="md:hidden"/>
+                                <li className="text-lg sm:text-md md:text-base translate-y-[2.5px]">Movies</li>
+                            </Link>
+                        }
                     </ul>
-                </section>
-                <section className="flex gap-x-5 items-center">
-                    <div className="hidden">
-                        <FiSearch />
-                    </div>
-                    <div className="hidden">
-                        <section className="flex gap-x-2 items-center text-xs">
-                            John Grisham
-                            <RxAvatar />
-                        </section>
-                    </div>
-                    <div className="hidden">
-                        <FaRegBell />
-                    </div>
-                    {/* <button className="flex items-center w-auto h-8 py-2 px-4 bg-red-500 text-white text-sm rounded-sm font-bold outline-none">
-                        <Link href={"/login"}>Sign In</Link>
-                    </button> */}
+                    {
+                        userStatus ? 
+                        <button onClick={signUserOut}
+                            className="flex items-center justify-center w-22 md:w-28 h-8 py-3 bg-red-500 text-white text-sm rounded-sm font-bold outline-none">
+                            Sign Out
+                        </button> :
+                        <button onClick={signUserOut}
+                            className="flex items-center justify-center w-22 md:w-28 h-8 py-3 bg-red-500 text-white text-sm rounded-sm font-bold outline-none">
+                            <Link href={"/login"}>Sign In</Link>
+                        </button>
+                    }
                 </section>
             </nav>
         </>)

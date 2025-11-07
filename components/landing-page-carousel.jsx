@@ -1,19 +1,23 @@
-export const Carousel = () => {
-    // Placeholder movie names until actual movies are fetched from api
-    const trending = ["Farmer's Bride", "THINLINE", "The Waiter", "BEAUTY IN BLACK", "TO KILL A MONKEY",
-        "SPARTACUS", "NERO THE ASSASIN", "BON APPETIT", "MONDAY", "ELIXIR"
-    ]
+import Image from "next/image"
 
+export const Carousel = ({ movies }) => {
 
     return(
         <>
-            <section className="w-full flex space-x-2 lg:space-x-10 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+            <section className="w-full flex space-x-4 lg:space-x-7 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
                 {
-                    trending.map((title, index) => 
-                        <div key={index} 
-                            className="flex-shrink-0 w-[40%] md:w-[18%] lg:w-[15%] h-45 md:h-55 lg:h-65 border-2 border-gray-700 rounded-md"
+                    movies?.map((movie) => 
+                        <div key={movie.id} 
+                            className="flex-shrink-0 w-40 h-55 sm:w-45 sm:h-60 lg:h-70 lg:w-50 border-0 border-gray-700 rounded-md relative
+                                    snap-mandatory snap-end"
                         >
-                            {title}
+                            <Image 
+                                className="w-full h-full rounded-md"
+                                src={"https://image.tmdb.org/t/p/w500"+movie.poster_path}
+                                alt= "movie image"
+                                width={500}
+                                height={500}
+                            />
                         </div>
                     )
                 }
