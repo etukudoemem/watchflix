@@ -1,23 +1,23 @@
 "use client"
 
-import { Button } from "@/components/button/signup-button"
-import { Input } from "@/components/input/input"
+import { Button } from "@/components/button"
+import { Input } from "@/components/input"
 import { RememberHelp } from "@/components/remember-help-section"
 import Link from "next/link"
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
 import { useCreateUser } from "@/lib/hooks"
 import { Notify } from "@/components/notify"
+import * as yup from "yup"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 
 const schema = yup.object({
     name: yup.string().required(),
     email: yup.string().email().required(),
-    password: yup.number().required(),
+    password: yup.string().required(),
 }).required()
 
 function Signup () {
-    const { register, handleSubmit, formState: { errors } } = useForm({resolver: yupResolver(schema)})
+    const { register, handleSubmit, formState: { errors }} = useForm({resolver: yupResolver(schema)})
     const mutation = useCreateUser()
     
     const onSubmit = (data) => {
@@ -39,8 +39,12 @@ function Signup () {
                             <div className="w-full h-full flex flex-col items-center justify-center gap-y-4">
                                 <Input register={register} error={errors.name?.message} label={"name"} placeholder={"Your name"} />
                                 <Input register={register} error={errors.email?.message} label={"email"} placeholder={"Email"} />
-                                <Input register={register} error={errors.password?.message} label={"password"} type={"password"} placeholder={"Password"} />
-                                <Button isPending={mutation.isPending} />
+                                <Input register={register} error={errors.password?.message} label={"password"} placeholder={"Password"} />
+                                <Button style={`w-full h-12 sm:h-10 rounded text-sm font-semibold ${mutation.isPending ? "opacity-70 bg-red-500" : "bg-red-500"}`}
+                                    type={"submit"}
+                                >
+                                    {mutation.isPending ? "Signing Up..." : "Sign Up"}
+                                </Button>
                                 <RememberHelp />
                             </div>
                         </form>

@@ -5,10 +5,19 @@ import Image from "next/image"
 import Link from "next/link"
 
 export const Carousel = ({ type }) => {
-    const {data: trending} = useFetchMovieType("popular")
+    const {data: trending, isPending, isError} = useFetchMovieType("popular")
     const {data: nowplaying} = useFetchMovieType("now_playing")
     const {data: upcoming} = useFetchMovieType("upcoming")
     const {data: toprated} = useFetchMovieType("top_rated")
+
+    if (isPending) {
+        return <span className="animate-pulse text-xs">Loading...</span>
+    }
+
+    if (isError) {
+        return <span className="text-red-500 text-xs">HTTP Error: Failed to fetch movies</span>
+    }
+    
 
     return(
         <>
@@ -28,6 +37,7 @@ export const Carousel = ({ type }) => {
                                     height={500}
                                 />
                             </Link>
+                            
                         </div>
                     ) :
                     type === "now_playing" && nowplaying ? nowplaying.map((movie) => 

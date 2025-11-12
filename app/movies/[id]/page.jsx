@@ -2,36 +2,38 @@
 
 import { useFetchMovie } from "@/lib/hooks"
 import { useParams } from "next/navigation"
-import { Button } from "@/components/button/back-button"
+import { Button } from "@/components/button"
+import { IoArrowBackCircleOutline } from "react-icons/io5"
+import Loader from "@/components/loader"
 
 function MovieDetails () {
     const params = useParams()
     const { id } = params
 
-    const {data: movie, isPending, isError, error} = useFetchMovie(id)
+    const {data: movie, isPending, isError} = useFetchMovie(id)
 
-    {
-        isError && !isPending && 
-        (<p className="px-6 w-full h-[100vh] flex flex-col items-center justify-center text-red-500 text-lg w-full">
-            HTTP Error: Failed to fetch data.
-        </p>)
+    if (isError && !isPending) {
+        return <span className="w-full h-[100vh] flex flex-col items-center justify-center text-red-500 text-xl w-full">
+            HTTP Error: Failed to fetch movie
+        </span>
     }
-
-    {
-        isPending && movie !== undefined && 
-        (<p className="px-6 text-xl w-full h-[100vh] flex items-center justify-center text-white">
-            Loading...
-        </p>)
+    
+    if (isPending) {
+        return <span className="w-full h-[100vh] flex items-center justify-center text-white">
+            <Loader/>
+        </span>
     }
 
     return(
         <>
             {movie && <main className="w-full flex flex-col ">
-                <Button />
+                <Button style={"flex items-center gap-x-2 cursor-pointer p-4"} type={"button"} button={"back"} >
+                    <IoArrowBackCircleOutline size={30} />
+                </Button>
                 <section key={movie.id} className="w-full h-[100vh] flex items-center justify-center relative">
                     <iframe 
                         width="90%" 
-                        height="90%"
+                        height="95%"
                         src={`https://www.youtube.com/embed/${movie.key}` }
                         title="trailer"
                         frameBorder="0"

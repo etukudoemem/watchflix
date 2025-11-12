@@ -1,17 +1,13 @@
-"use client"
-
 import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
-  authDomain: "watchflix-4305e.firebaseapp.com",
-  projectId: "watchflix-4305e",
-  storageBucket: "watchflix-4305e.firebasestorage.app",
-  messagingSenderId: "780931536755",
-  appId: "1:780931536755:web:30562b11e7bcabe7ba5706",
-  measurementId: "G-ZQTMX8M06E"
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID
 };
 
 export const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);

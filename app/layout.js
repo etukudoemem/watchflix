@@ -31,13 +31,10 @@ export default function RootLayout({ children }) {
       >
           <QueryProvider>
               <AuthProvider>
-                {children}
+                  {children}
               </AuthProvider>
           </QueryProvider>
       </body>
     </html>
   );
 }
-
-// md:px-10 lg:px-30
-// {geistSans.variable} ${geistMono.variable}

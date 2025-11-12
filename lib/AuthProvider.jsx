@@ -7,32 +7,27 @@ import { useRouter } from "next/navigation"
 
 export const authContext = createContext(null)
 export const AuthProvider = ({ children }) => {
+
+    const auth = getAuth(app)
     const router = useRouter()
     
+    const [userStatus, setUserStatus] = useState(false)
+    const [notify, setNotify] = useState(false)
+
     const getUserStatus = () => {
         const status = window.localStorage.getItem("WatchflixUserStatus")
-        if (status !== undefined) {
-            return true
-        } else {
-            return false
+            status ? setUserStatus(status) : setUserStatus(false)
         }
-    }
-    const [userStatus, setUserStatus] = useState(getUserStatus())
-    const [notify, setNotify] = useState(false)
     
-    const auth = getAuth(app)
-    const storeUserStatus = () => {
-        window.localStorage.setItem("WatchflixUserStatus", userStatus)
-    }
     useEffect(() => {
-        storeUserStatus()
-    }, [userStatus])
+        getUserStatus()
+    }, [])
 
     const signUserOut = () => {
         signOut(auth)
         .then(() => {
-            router.push("/login")
             setUserStatus(false)
+            router.push("/login")
         }) 
     }
 
@@ -46,6 +41,14 @@ export const AuthProvider = ({ children }) => {
         }, 5000)
     }
 
+    const storeUserStatus = () => {
+        window.localStorage.setItem("WatchflixUserStatus", userStatus)
+    }
+    
+    useEffect(() => {
+        storeUserStatus()
+    }, [userStatus])
+    
     const authValues = {userStatus, setUserStatus, signUserOut, notify, setNotify, notification}
     
     return <authContext.Provider value={authValues}>

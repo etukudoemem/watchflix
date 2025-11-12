@@ -7,18 +7,20 @@ import { useContext, useRef } from "react"
 import Link from "next/link"
 import { authContext } from "@/lib/AuthProvider"
 import { Logo } from "./logo"
+import { Button } from "./button"
 
 export const Navbar = () => {
-    const { userStatus, signUserOut } = useContext(authContext)
+    const { userStatus } = useContext(authContext)
     const menuRef = useRef(null)
     const handleMenu = () => {
         menuRef.current.classList.toggle("-translate-x-100")
         menuRef.current.classList.toggle("translate-x-0")
     }
+    const style = `flex items-center justify-center w-22 md:w-28 h-8 py-3 bg-red-500 text-white text-sm rounded-sm font-bold outline-none`
     
     return( 
         <>
-            <nav className="flex justify-between items-center w-full py-7 px-7 md:px-10 lg:px-30">
+            <nav className="flex justify-between items-center w-full py-7 px-6 md:px-10 lg:px-30">
                 <section className="w-full flex items-center justify-between gap-x-2 md:gap-x-6 lg:gap-x-12">
                     <div className="flex gap-x-3">
                         {
@@ -51,14 +53,12 @@ export const Navbar = () => {
                     </ul>
                     {
                         userStatus ? 
-                        <button onClick={signUserOut}
-                            className="flex items-center justify-center w-22 md:w-28 h-8 py-3 bg-red-500 text-white text-sm rounded-sm font-bold outline-none">
+                        <Button style={style} type={"button"} button={"signout"}>
                             Sign Out
-                        </button> :
-                        <button onClick={signUserOut}
-                            className="flex items-center justify-center w-22 md:w-28 h-8 py-3 bg-red-500 text-white text-sm rounded-sm font-bold outline-none">
-                            <Link href={"/login"}>Sign In</Link>
-                        </button>
+                        </Button> :
+                        <Button style={style} type={"button"} button={"signin"}>
+                            Sign In
+                        </Button>
                     }
                 </section>
             </nav>
